@@ -12,11 +12,13 @@ namespace Graphs1
     {
         public readonly Node From;
         public readonly Node To;
+        public readonly int Weight;
 
-        public Edge(Node first, Node second)
+        public Edge(Node first, Node second, int weight = 0)
         {
             From = first;
             To = second;
+            Weight = weight;
         }
 
         public bool IsIncident(Node node)

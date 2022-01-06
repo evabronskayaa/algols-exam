@@ -27,12 +27,14 @@ namespace Graphs1
             // }
             
             var graph = new Graphs1.Graph(4);
-            var weights = new Dictionary<Edge, double>();
-            weights[graph.Connect(0, 1)] = 1;
-            weights[graph.Connect(0, 2)] = 2;
-            weights[graph.Connect(0, 3)] = 6;
-            weights[graph.Connect(1, 3)] = 4;
-            weights[graph.Connect(2, 3)] = 2;
+            var weights = new Dictionary<Edge, double>
+            {
+                [graph.Connect(0, 1)] = 1,
+                [graph.Connect(0, 2)] = 2,
+                [graph.Connect(0, 3)] = 6,
+                [graph.Connect(1, 3)] = 4,
+                [graph.Connect(2, 3)] = 2
+            };
 
             var path = Algols.Dijkstra(graph, weights, graph[0], graph[3]).Select(n => n.NodeNumber);
 
@@ -40,6 +42,24 @@ namespace Graphs1
             {
                 Console.WriteLine(e);
             }
+        }
+        
+        public static IEnumerable<Edge> Kruskal(IEnumerable<Edge> edges)
+        {
+            var tree = new List<Edge>();
+            foreach (var edge in edges.OrderBy(x => x.Weight))
+            {
+                tree.Add(edge);
+                if (!HasCycle(tree))
+                    tree.Remove(edge);
+            }
+            return tree;
+        }
+
+        private static bool HasCycle(List<Edge> edges)
+        {
+            
+            return true;
         }
     }
 }
