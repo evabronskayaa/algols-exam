@@ -36,6 +36,14 @@ namespace Graphs1
 
                 foreach (var e in toOpen.IncidentEdges.Where(z => z.From == toOpen))
                 {
+                    try
+                    {
+                        var t = weights[e];
+                    }
+                    catch
+                    {
+                        continue;
+                    }
                     var currentPrice = track[toOpen].Price + weights[e];
                     var nextNode = e.OtherNode(toOpen);
                     if (!track.ContainsKey(nextNode) || track[nextNode].Price > currentPrice)

@@ -63,9 +63,9 @@ namespace Graphs1
             }
         }
 
-        public static Edge Connect(Node node1, Node node2)
+        public static Edge Connect(Node node1, Node node2, int weight = 0)
         {
-            var edge = new Edge(node1, node2);
+            var edge = new Edge(node1, node2, weight);
             node1.edges.Add(edge);
             node2.edges.Add(edge);
             return edge;
@@ -105,9 +105,9 @@ namespace Graphs1
             }
         }
 
-        public Edge Connect(int index1, int index2)
+        public Edge Connect(int index1, int index2, int weight = 0)
         {
-            return Node.Connect(nodes[index1], nodes[index2]);
+            return Node.Connect(nodes[index1], nodes[index2], weight);
         }
 
         public void Delete(Edge edge)
@@ -126,6 +126,24 @@ namespace Graphs1
             for (int i = 0; i < incidentNodes.Length - 1; i += 2)
                 graph.Connect(incidentNodes[i], incidentNodes[i + 1]);
             return graph;
+        }
+
+        public bool IsCyclicUtil(Node current, bool[] visited, Node parent)
+        {
+            visited[current.NodeNumber] = true;
+
+            foreach (var i in current.IncidentNodes)
+            {
+                if (!visited[i.NodeNumber])
+                {
+                    if (IsCyclicUtil(i, visited, current))
+                        return true;
+                }
+                else if (i != parent)
+                    return true;
+            }
+            return false;
+
         }
     }
 }
