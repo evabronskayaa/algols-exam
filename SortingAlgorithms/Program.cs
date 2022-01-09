@@ -6,7 +6,7 @@ namespace SortingAlgorithms
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(ABC_Sorter.ABCSort("Hello World!"));
+            //Console.WriteLine(ABC_Sorter.ABCSort("Hello World!"));
 
             int[] arr = {12, 11, 13, 5, 6, 7};
 
