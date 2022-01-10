@@ -2,6 +2,7 @@
 {
     public static class RadixSorter
     {
+        // боже, срань господня, помогите
         private static int GetMax(int[] arr, int n)
         {
             int mx = arr[0];

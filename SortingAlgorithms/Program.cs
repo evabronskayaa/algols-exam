@@ -25,17 +25,20 @@ namespace SortingAlgorithms
             PrintArray(arr);
             
             
-            while (true) {
+            while (true)
+            {
                 Console.Write("Введите искомое значение или -777 для выхода: ");
                 var k = Convert.ToInt32(Console.ReadLine());
                 if (k == -777) break;
 
                 var searchResult = arr.BinarySearchRecursive(k, 0, arr.Length - 1);
                 //var searchResult = arr.BinarySearchIterative(k, 0, arr.Length - 1);
-                if (searchResult < 0) {
+                if (searchResult < 0) 
+                {
                     Console.WriteLine("Элемент со значением {0} не найден", k);
                 }
-                else {
+                else 
+                {
                     Console.WriteLine("Элемент найден. Индекс элемента со значением {0} равен {1}", k, searchResult);
                 }
             }
