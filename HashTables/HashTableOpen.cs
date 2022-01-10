@@ -64,15 +64,12 @@
         /// <summary>
         /// Represents getting a hash code.
         /// </summary>
-        private int CalculateHash(string key, int i)
-        {
-            return key[0] - 'a' + i;
-        }
+        private int CalculateHash(string key, int i) => key[0] - 'a' + i;
 
         public int GetLargestCluster()
         {
-            int i = 0;
-            int max = 0;
+            var i = 0;
+            var max = 0;
             foreach (var cell in _cells)
             {
                 if (cell == null)
@@ -87,7 +84,6 @@
             }
 
             if (i > max) max = i;
-
             return max;
         }
     }

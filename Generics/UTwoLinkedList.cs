@@ -80,7 +80,7 @@ namespace Generics
             Node<T> item = first;
             while (item != endpoint)
             {
-                sb.Append(item.Content.ToString() + "; ");
+                sb.Append(item.Content + "; ");
                 item = item.Next;
             }
             return sb.ToString();

@@ -25,18 +25,6 @@
         /// <param name="item">The object to place.</param>
         public void Push(T item) => PlaceLast(item);
 
-        /// <summary>
-        /// Checks whether the stack contains elements.
-        /// </summary>
-        /// <returns>True if the stack contains no elements, otherwise false.</returns>
-        public override bool IsEmpty() => base.IsEmpty();
-
-        /// <summary>
-        /// Returns the string representation of the stack, starting with the deepest lying elements.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString() => base.ToString();
-
         public UStack(params T[] collection)
         {
             foreach (T item in collection)

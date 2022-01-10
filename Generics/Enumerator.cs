@@ -14,7 +14,6 @@ namespace Generics
 
         public void Dispose()
         {
-
         }
 
         public bool MoveNext()
