@@ -6,11 +6,12 @@ namespace SortingAlgorithms
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine(ABC_Sorter.ABCSort("Hello World!"));
+            string[] strArray = {"hello", "world", "bye", "plum"};
+            var aa = new ABC_Sorter(strArray);
+            var result = aa.ABCSort();
+            PrintArray(result);
 
             int[] arr = {12, 11, 13, 5, 6, 7};
-            
-
             // arr.BubbleSort();
             arr.CocktailSort();
             // arr.InsertionSort();
@@ -44,7 +45,7 @@ namespace SortingAlgorithms
             }
         }
 
-        private static void PrintArray(int[] arr) {
+        private static void PrintArray<T>(T[] arr) {
             var n = arr.Length;
             for (var i = 0; i < n; ++i) Console.Write(arr[i]+" ");
         }
