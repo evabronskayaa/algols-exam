@@ -5,9 +5,7 @@ namespace SortingAlgorithms
     public class TreeNode
     {
         private readonly int _data;
-        
         private TreeNode _left; //left branch
-        
         private TreeNode _right; //right branch
         
         public TreeNode(int data) 

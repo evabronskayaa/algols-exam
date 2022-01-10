@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Graphs1
 {
@@ -36,14 +32,15 @@ namespace Graphs1
 
     public class Node
     {
-        readonly List<Edge> edges = new List<Edge>();
+        private readonly List<Edge> _incidentEdges = new List<Edge>();
         public readonly int NodeNumber;
 
         public Node(int number)
         {
             NodeNumber = number;
         }
-
+        
+        // чтобы нормально в дебаге отображалось
         public override string ToString()
         {
             return NodeNumber.ToString();
@@ -52,78 +49,69 @@ namespace Graphs1
         //перечислить ноды кт инцидентны данной, но не позволит изменить
         public IEnumerable<Node> IncidentNodes
         {
-            get { return edges.Select(z => z.OtherNode(this)); }
+            get { return _incidentEdges.Select(z => z.OtherNode(this)); }
+            // get
+            // {
+            //     foreach (var edge in _incidentEdges) yield return edge.OtherNode(this);
+            // }
         }
-
+        
+        // тоже самое, что и с узлами
         public IEnumerable<Edge> IncidentEdges
         {
             get
             {
-                foreach (var e in edges) yield return e;
+                foreach (var edge in _incidentEdges) yield return edge;
             }
         }
 
+        // создание связи в неориентированном графе
         public static Edge Connect(Node node1, Node node2, int weight = 0)
         {
             var edge = new Edge(node1, node2, weight);
-            node1.edges.Add(edge);
-            node2.edges.Add(edge);
+            node1._incidentEdges.Add(edge);
+            node2._incidentEdges.Add(edge);
             return edge;
-        }
-
-        public static void Disconnect(Edge edge)
-        {
-            edge.From.edges.Remove(edge);
-            edge.To.edges.Remove(edge);
         }
     }
 
     public class Graph
     {
-        private Node[] nodes;
-
+        private readonly Node[] _nodes;
+        
+        // чтобы избежать повторения номеров вершин, узнаем их количество
         public Graph(int nodesCount)
         {
-            nodes = Enumerable.Range(0, nodesCount).Select(z => new Node(z)).ToArray();
+            _nodes = Enumerable.Range(0, nodesCount).Select(x => new Node(x)).ToArray();
         }
 
-        public int Length
-        {
-            get { return nodes.Length; }
-        }
+        public int Length => _nodes.Length;
 
-        public Node this[int index]
-        {
-            get { return nodes[index]; }
-        }
+        // для извлечения вершин, чтобы их соединить
+        public Node this[int index] => _nodes[index];
 
         public IEnumerable<Node> Nodes
         {
             get
             {
-                foreach (var node in nodes) yield return node;
+                foreach (var node in _nodes) yield return node;
             }
         }
 
         public Edge Connect(int index1, int index2, int weight = 0)
         {
-            return Node.Connect(nodes[index1], nodes[index2], weight);
-        }
-
-        public void Delete(Edge edge)
-        {
-            Node.Disconnect(edge);
+            return Node.Connect(_nodes[index1], _nodes[index2], weight);
         }
 
         public IEnumerable<Edge> Edges
         {
-            get { return nodes.SelectMany(z => z.IncidentEdges).Distinct(); }
+            get { return _nodes.SelectMany(z => z.IncidentEdges).Distinct(); }
         }
 
         public static Graph MakeGraph(params int[] incidentNodes)
         {
             var graph = new Graph(incidentNodes.Max() + 1);
-            for (int i = 0; i < incidentNodes.Length - 1; i += 2)
+            for (var i = 0; i < incidentNodes.Length - 1; i += 2)
                 graph.Connect(incidentNodes[i], incidentNodes[i + 1]);
             return graph;
         }
