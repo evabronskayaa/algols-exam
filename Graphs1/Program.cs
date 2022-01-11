@@ -9,48 +9,48 @@ namespace Graphs1
         static void Main(string[] args)
         {
             // Создание графа на основе инцидентных вершин
-            var graph = Graph.MakeGraph(
-                0, 1,
-                0, 2,
-                1, 3,
-                1, 4,
-                2, 3,
-                3, 4);
+            // var graph = Graph.MakeGraph(
+            //     0, 1,
+            //     0, 2,
+            //     1, 3,
+            //     1, 4,
+            //     2, 3,
+            //     3, 4);
             
             // foreach (var e in graph[0].BreadthSearch())
             // {
             //     Console.WriteLine(e.NodeNumber);
             // }
             
-            foreach (var e in graph[0].DepthSearch())
-            {
-                Console.WriteLine(e.NodeNumber);
-            }
-
-            // var graph = new Graph(4);
-            // var weights = new Dictionary<Edge, double>
+            // foreach (var e in graph[0].DepthSearch())
             // {
-            //     [graph.Connect(0, 1)] = 1,
-            //     [graph.Connect(0, 2)] = 2,
-            //     [graph.Connect(0, 3)] = 6,
-            //     [graph.Connect(1, 3)] = 4,
-            //     [graph.Connect(2, 3)] = 2
-            // };
-            //
-            //
-            // graph.Connect(0, 1, 1);
-            // graph.Connect(0, 2, 2);
-            // graph.Connect(0, 3, 6);
-            // graph.Connect(1, 3, 4);
-            // graph.Connect(2, 3, 2);
-            //
-            // var path = Algols.Dijkstra(graph, weights, graph[0], graph[3]).Select(n => n.NodeNumber);
-            //
-            // foreach (var e in path)
-            // {
-            //     Console.WriteLine(e);
+            //     Console.WriteLine(e.NodeNumber);
             // }
-            //
+
+            var graph = new Graph(4);
+            var weights = new Dictionary<Edge, double>
+            {
+                [graph.Connect(0, 1)] = 1,
+                [graph.Connect(0, 2)] = 2,
+                [graph.Connect(0, 3)] = 6,
+                [graph.Connect(1, 3)] = 4,
+                [graph.Connect(2, 3)] = 2
+            };
+
+            
+            graph.Connect(0, 1, 1);
+            graph.Connect(0, 2, 2);
+            graph.Connect(0, 3, 6);
+            graph.Connect(1, 3, 4);
+            graph.Connect(2, 3, 2);
+            
+            var path = Algols.Dijkstra(graph, weights, graph[0], graph[3]).Select(n => n.NodeNumber);
+            
+            foreach (var e in Kruskal(graph))
+            {
+                Console.WriteLine(e.Weight);
+            }
+            
             // var t = Prim(graph);
             //
             // foreach (var m in t)
@@ -72,6 +72,21 @@ namespace Graphs1
             }
 
             return tree;
+        }
+        
+        private static bool HasCycle(Graph graph)
+        {
+            int length = graph.Nodes.Count();
+            bool[] visited = new bool[length];
+
+            for (int i = 0; i < length; i++) visited[i] = false;
+
+            for (int u = 0; u < length; u++)
+                if (!visited[u])
+                    if (graph.IsCyclicUtil((Node) graph.Nodes.Where(t => t.NodeNumber == u)
+                             .First(), visited, null))
+                        return true;
+            return false;
         }
 
         public static IEnumerable<Edge> Prim(Graph graph)
@@ -137,21 +152,6 @@ namespace Graphs1
             return graph;
         }
 
-        private static bool HasCycle(Graph graph)
-        {
-            int length = graph.Nodes.Count();
-
-            bool[] visited = new bool[length];
-
-            for (int i = 0; i < length; i++)
-                visited[i] = false;
-
-            for (int u = 0; u < length; u++)
-                if (!visited[u])
-                    if (graph.IsCyclicUtil((Node) graph.Nodes.Where(t => t.NodeNumber == u)
-                        .First(), visited, null))
-                        return true;
-            return false;
-        }
+        
     }
 }

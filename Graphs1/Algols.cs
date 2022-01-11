@@ -15,13 +15,13 @@ namespace Graphs1
         public static List<Node> Dijkstra(Graph graph, Dictionary<Edge, double> weights, Node start, Node end)
         {
             var notVisited = graph.Nodes.ToList();
-            var track = new Dictionary<Node, DijkstraData>();
-            track[start] = new DijkstraData {Price = 0, Previous = null};
+            var track = new Dictionary<Node, DijkstraData>(); //оценки для каждой вершины
+            track[start] = new DijkstraData {Price = 0, Previous = null};// информация о нулевой вершине
 
             while (true)
             {
                 Node toOpen = null;
-                var bestPrice = double.PositiveInfinity;
+                var bestPrice = double.PositiveInfinity; // минимальная цена
                 foreach (var e in notVisited)
                 {
                     if (track.ContainsKey(e) && track[e].Price < bestPrice)
@@ -31,9 +31,12 @@ namespace Graphs1
                     }
                 }
 
+                // случай, если в графе нет подходящих для раскрытия вершин
                 if (toOpen == null) return null;
                 if (toOpen == end) break;
-
+                
+                // иначе раскрываем
+                // пробегаемся по вершинам, у которых она явл начальной
                 foreach (var e in toOpen.IncidentEdges.Where(z => z.From == toOpen))
                 {
                     try
@@ -48,10 +51,11 @@ namespace Graphs1
                     var nextNode = e.OtherNode(toOpen);
                     if (!track.ContainsKey(nextNode) || track[nextNode].Price > currentPrice)
                     {
-                        track[nextNode] = new DijkstraData {Previous = toOpen, Price = currentPrice};
+                        track[nextNode] = new DijkstraData { Price = currentPrice, Previous = toOpen,};
                     }
                 }
 
+                // раскрытие вершины можно считать законченым
                 notVisited.Remove(toOpen);
             }
 
