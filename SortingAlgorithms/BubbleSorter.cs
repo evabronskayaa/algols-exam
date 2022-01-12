@@ -11,14 +11,13 @@
 
         public static int[] BubbleSort(this int[] array) 
         {
-            var len = array.Length;
-            for (var i = 1; i < len; i++)
+            for (var i = 1; i < array.Length; i++)
             {
-                for (var j = 0; j < len - i; j++)
+                for (var j = 0; j < array.Length - i; j++)
                 {
                     if (array[j] > array[j + 1])
                     {
-                        Swap(ref array[j], ref array[j + 1]);
+                        (array[j], array[j + 1]) = (array[j + 1], array[j]);
                     }
                 }
             }

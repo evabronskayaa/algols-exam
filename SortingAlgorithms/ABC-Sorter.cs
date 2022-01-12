@@ -13,7 +13,7 @@ namespace SortingAlgorithms
         {
             _array = array;
             _indexes = new int?[_array.Length];
-            _level = new List<int?[]> {new int?[26]};
+            _level = new List<int?[]> {new int?[26]};  // 26 букв лат, на опр уровне сравниваются слова aka RadixSort
             _result = new List<string>();
         }
 
@@ -21,7 +21,7 @@ namespace SortingAlgorithms
         {
             for (var i = 0; i < _array.Length; i++)
             {
-                var letter = char.ToUpper(_array[i][0]) - 65;
+                var letter = char.ToUpper(_array[i][0]) - 65; // вычисляется номер буквы
                 _indexes[i] = _level[0][letter];
                 _level[0][letter] = i;
             }

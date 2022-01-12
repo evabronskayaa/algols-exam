@@ -5,11 +5,11 @@ namespace HashTables
 {
     public class HashTableChains
     {
-        private List<UserData>[] cells;
+        private readonly List<UserData>[] _cells;
 
         public HashTableChains(int size)
         {
-            cells = new List<UserData>[size];
+            _cells = new List<UserData>[size];
         }
 
         private int CalculateHash(string key)
@@ -17,19 +17,16 @@ namespace HashTables
             int hash = 1;
             for (int i = 0; i < key.Length / 2; i++)
                 hash += key[i] - 'a' + 1;
-            //hash *= key[i] - 'a' + 1;
-            //hash = key[0] - 'a';
-            return hash % cells.Length;
+            return hash % _cells.Length;
         }
 
-        public UserData Search(string id) => cells[CalculateHash(id)].Find(t => t.Id == id);
-
+        public UserData Search(string id) => _cells[CalculateHash(id)].Find(t => t.Id == id);
 
         public int Add(UserData data)
         {
             var index = CalculateHash(data.Id);
-            if (cells[index] is null) cells[index] = new List<UserData>();
-            cells[index].Insert(0, data);
+            if (_cells[index] is null) _cells[index] = new List<UserData>();
+            _cells[index].Insert(0, data);
             return index;
         }
 
@@ -38,7 +35,7 @@ namespace HashTables
         /// </summary>
         public bool Remove(string id)
         {
-            _ = cells[CalculateHash(id)].Remove(cells[CalculateHash(id)].Find(t => t.Id == id));
+            _ = _cells[CalculateHash(id)].Remove(_cells[CalculateHash(id)].Find(t => t.Id == id));
             return true;
         }
 
@@ -47,7 +44,7 @@ namespace HashTables
             int maxValue = 0;
             int minValue = int.MaxValue;
             int elements = 0;
-            foreach (var t in cells)
+            foreach (var t in _cells)
             {
                 if (t is null) continue;
                 elements++;

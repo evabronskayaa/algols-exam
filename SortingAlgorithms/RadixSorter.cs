@@ -14,10 +14,8 @@
         private static void CountSort(int[] arr, int n, int exp)
         {
             var output = new int[n];
-            // массив с количеством чисел с конкретной цифрой в нужном разряде
-            var count = new int[10];
+            var count = new int[10]; // массив с количеством чисел с конкретной цифрой в нужном разряде
 
-            // экспонента на первом проходе 1
             for (var i = 0; i < n; i++)
                 count[(arr[i] / exp) % 10]++; 
 

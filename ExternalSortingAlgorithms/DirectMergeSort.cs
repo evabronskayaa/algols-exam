@@ -5,16 +5,6 @@ namespace ExternalSortingAlgorithms
 {
     public static class DirectMergeSort
     {
-        public static void MakeFile(string filePath, int length) { 
-            if (File.Exists(filePath)) File.Delete(filePath);
-            var rnd = new Random();
-            var file = new StreamWriter(filePath); 
- 
-            for (var i = 0; i < length; i++) file.WriteLine(rnd.Next(100)); 
- 
-            file.Close(); 
-        } 
-        
         public static void SortFile(string file) { 
             var i = 1; 
             while(SplitFile(file, "A.txt", "B.txt", i)) { 

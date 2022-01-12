@@ -128,7 +128,10 @@ namespace Graphs1
                         return true;
                 }
                 else if (i != parent)
+                {
                     return true;
+                }
+                // могут быть ребра к тому же узлу
             }
             return false;
 

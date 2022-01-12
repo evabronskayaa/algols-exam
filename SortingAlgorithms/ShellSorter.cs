@@ -4,23 +4,22 @@ namespace SortingAlgorithms
 {
     public static class ShellSorter
     {
-        private static void Swap<T>(ref T a, ref T b) {
-            var t = a;
-            a = b;
-            b = t;
+        private static void Swap(ref int x, ref int y)
+        {
+            var t = x;
+            x = y;
+            y = t;
         }
-
-        public static T[] ShellSort<T>(this T[] array, bool ascending = true)
-            where T : IComparable
+        
+        public static int[] ShellSort(this int[] array)
         {
             var d = array.Length / 2;
-
             while (d >= 1)
             {
                 for (var i = d; i < array.Length; i++)
                 {
                     var j = i;
-                    while ((j >= d) && (array[j - d].CompareTo(array[j])) > 0)
+                    while ((j >= d) && (array[j - d] > array[j]))
                     {
                         Swap(ref array[j], ref array[j - d]);
                         j -= d;
@@ -28,14 +27,6 @@ namespace SortingAlgorithms
                 }
 
                 d /= 2;
-            }
-
-            if (!ascending)
-            {
-                for (int i = 0; i < array.Length - i; i++) 
-                {
-                    Swap(ref array[array.Length - i - 1], ref array[i]);
-                }
             }
 
             return array;

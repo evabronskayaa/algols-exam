@@ -28,15 +28,15 @@ namespace Graphs1
             // }
 
             var graph = new Graph(4);
-            var weights = new Dictionary<Edge, double>
-            {
-                [graph.Connect(0, 1)] = 1,
-                [graph.Connect(0, 2)] = 2,
-                [graph.Connect(0, 3)] = 6,
-                [graph.Connect(1, 3)] = 4,
-                [graph.Connect(2, 3)] = 2
-            };
-
+            // var weights = new Dictionary<Edge, double>
+            // {
+            //     [graph.Connect(0, 1)] = 1,
+            //     [graph.Connect(0, 2)] = 2,
+            //     [graph.Connect(0, 3)] = 6,
+            //     [graph.Connect(1, 3)] = 4,
+            //     [graph.Connect(2, 3)] = 2
+            // };
+            //
             
             graph.Connect(0, 1, 1);
             graph.Connect(0, 2, 2);
@@ -44,20 +44,17 @@ namespace Graphs1
             graph.Connect(1, 3, 4);
             graph.Connect(2, 3, 2);
             
-            var path = Algols.Dijkstra(graph, weights, graph[0], graph[3]).Select(n => n.NodeNumber);
-            
-            foreach (var e in Kruskal(graph))
-            {
-                Console.WriteLine(e.Weight);
-            }
-            
-            // var t = Prim(graph);
+            // var path = Algols.Dijkstra(graph, weights, graph[0], graph[3]).Select(n => n.NodeNumber);
             //
-            // foreach (var m in t)
+            // foreach (var e in Kruskal(graph))
             // {
-            //     Console.WriteLine(m.To.NodeNumber + " " + m.From.NodeNumber + " " +
-            //                       m.Weight);
+            //     Console.WriteLine(e.Weight);
             // }
+
+            foreach (var m in Prim(graph))
+            {
+                Console.WriteLine(m.To.NodeNumber + " " + m.From.NodeNumber + " " + m.Weight);
+            }
         }
 
         public static IEnumerable<Edge> Kruskal(Graph graph)
@@ -79,16 +76,16 @@ namespace Graphs1
             int length = graph.Nodes.Count();
             bool[] visited = new bool[length];
 
-            for (int i = 0; i < length; i++) visited[i] = false;
-
             for (int u = 0; u < length; u++)
                 if (!visited[u])
-                    if (graph.IsCyclicUtil((Node) graph.Nodes.Where(t => t.NodeNumber == u)
-                             .First(), visited, null))
-                        return true;
+                    return graph.IsCyclicUtil( graph.Nodes.Where(t => t.NodeNumber == u)
+                        .First(), visited, null);
             return false;
+            // если непосещенная то мы не знаем родителя
         }
 
+        // случайная вершина, ориентируемся по ребрам
+        // с каждым обходом выбираем ребро новой вершине с наим весом(кт инцидентно известным вершинам)
         public static IEnumerable<Edge> Prim(Graph graph)
         {
             var tree = new List<Edge>();
@@ -103,8 +100,8 @@ namespace Graphs1
             {
                 foreach (var t in node.IncidentEdges)
                     if (!possibleEdges.Contains(t) && t.Weight > 0 &&
-                        tree.Find(b => b.To == t.From && b.From == t.To) == null
-                        && !tree.Contains(t))
+                        tree.Find(b => b.To == t.From && b.From == t.To) == null // у нас граф неориентированный, поэтому достатошно одного вида ребра
+                       && !tree.Contains(t))
                         possibleEdges.Add(t);
 
                 possibleEdges = possibleEdges.OrderBy(b => b.Weight).ToList();

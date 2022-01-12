@@ -14,7 +14,6 @@
             var pivot = minIndex - 1;
             for (var i = minIndex; i < maxIndex; i++) 
             {
-                
                 if (array[i] < array[maxIndex]) 
                 {
                     pivot++;
